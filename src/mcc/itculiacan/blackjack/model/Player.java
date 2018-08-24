@@ -17,4 +17,15 @@ public class Player {
         return name;
     }
 
+    public int getHandValue() {
+
+        int value = 0;
+
+        for(Card card: hand) {
+            value += card.getValue();
+        }
+
+        return value;
+    }
+
 }

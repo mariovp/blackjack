@@ -12,6 +12,10 @@ public class BlackjackGame {
     public void startGame() {
         System.out.println("----------------Game started--------------");
 
+        addPlayers();
+    }
+
+    private void addPlayers() {
         System.out.println("¿Cuantas personas van a jugar?");
         Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
@@ -22,6 +26,8 @@ public class BlackjackGame {
             Player player = new Player(name);
             playerList.add(player);
         }
+
+        playerList.add(croupier);
 
         System.out.println("Jugadores agregados: ");
         for (Player player : playerList) {
