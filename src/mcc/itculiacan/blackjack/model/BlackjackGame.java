@@ -17,9 +17,19 @@ public class BlackjackGame {
 
     private void addPlayers() {
         Scanner scanner = new Scanner(System.in);
+        int n;
+        boolean isValidNumber = false;
+        do {
+            System.out.print("¿Cuantas personas van a jugar? " );
+            n = scanner.nextInt();
 
-        System.out.print("¿Cuantas personas van a jugar? " );
-        int n = scanner.nextInt();
+            if (n > 0 && n < 7)
+                isValidNumber = true;
+            else
+                System.out.println("El número de jugadores debe ser estar entre 1 y 6");
+
+        } while (!isValidNumber);
+
 
         for (int i = 0; i < n; i++) {
             System.out.print("Ingresa el nombre del Jugador "+ (i+1) + ": ");
