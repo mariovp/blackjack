@@ -48,4 +48,15 @@ public class Player {
         return nameList;
     }
 
+    public void printInfo() {
+        System.out.println("Jugador: " + name);
+        System.out.println("Puntos: " + getHandValue());
+        System.out.println("Cartas: ");
+
+        for (Card card :
+                hand) {
+            System.out.println("\t- "+card.getName());
+        }
+    }
+
 }

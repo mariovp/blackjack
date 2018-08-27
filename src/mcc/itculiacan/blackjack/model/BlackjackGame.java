@@ -16,12 +16,12 @@ public class BlackjackGame {
     }
 
     private void addPlayers() {
-        System.out.println("¿Cuantas personas van a jugar?");
+        System.out.print("¿Cuantas personas van a jugar? " );
         Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
 
         for (int i = 0; i < n; i++) {
-            System.out.println("Ingresa el nombre del Jugador "+ (i+1) + ": ");
+            System.out.print("Ingresa el nombre del Jugador "+ (i+1) + ": ");
             String name = scanner.next();
             Player player = new Player(name);
             playerList.add(player);
@@ -31,7 +31,7 @@ public class BlackjackGame {
 
         System.out.println("Jugadores agregados: ");
         for (Player player : playerList) {
-            System.out.println(player.getName());
+            System.out.println("\t-"+player.getName());
         }
     }
 
@@ -41,11 +41,8 @@ public class BlackjackGame {
         croupier.dealCards(playerList);
 
         for(Player player: playerList) {
-            System.out.println(player.getName() + ": " + player.getHandValue());
-            System.out.println("Cartas: ");
-            for(String cardName: player.getHandCardNames()) {
-                System.out.println("\t"+cardName);
-            }
+            System.out.println(">");
+            player.printInfo();
         }
     }
 
