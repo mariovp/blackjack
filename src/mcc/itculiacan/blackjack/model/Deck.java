@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Deck {
 
-    private List<Card> cards = new ArrayList<>(Arrays.asList(Card.values()));
+    private List<Card> cards = Arrays.asList(Card.values());
     private Deque<Card> cardDeque = new ArrayDeque<>();
 
     public void shuffle() {
