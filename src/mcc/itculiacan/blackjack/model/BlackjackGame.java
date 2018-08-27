@@ -10,9 +10,9 @@ public class BlackjackGame {
     private List<Player> playerList = new ArrayList<>();
 
     public void startGame() {
-        System.out.println("----------------Game started--------------");
-
+        System.out.println("----------------Programa iniciado--------------");
         addPlayers();
+        dealCards();
     }
 
     private void addPlayers() {
@@ -32,6 +32,20 @@ public class BlackjackGame {
         System.out.println("Jugadores agregados: ");
         for (Player player : playerList) {
             System.out.println(player.getName());
+        }
+    }
+
+    private void dealCards() {
+        System.out.println("-------------Repartir cartas----------");
+        croupier.shuffleCards();
+        croupier.dealCards(playerList);
+
+        for(Player player: playerList) {
+            System.out.println(player.getName() + ": " + player.getHandValue());
+            System.out.println("Cartas: ");
+            for(String cardName: player.getHandCardNames()) {
+                System.out.println("\t"+cardName);
+            }
         }
     }
 

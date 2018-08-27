@@ -10,8 +10,16 @@ public class Croupier extends Player {
         super(name);
     }
 
+    public void shuffleCards() {
+        deck.shuffle();
+    }
+
     public void dealCards(List<Player> playerList) {
 
+        for(Player player : playerList) {
+            Card card = deck.getCard();
+            player.giveCard(card);
+        }
     }
 
     public PlayerStatus validatePlayerStatus(Player player) {

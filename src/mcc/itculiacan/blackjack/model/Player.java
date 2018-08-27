@@ -34,4 +34,18 @@ public class Player {
         return value;
     }
 
+    public void giveCard(Card card) {
+        hand.add(card);
+    }
+
+    public List<String> getHandCardNames() {
+        List<String> nameList = new ArrayList<>();
+
+        for (Card card: hand) {
+            nameList.add(card.getName());
+        }
+
+        return nameList;
+    }
+
 }
