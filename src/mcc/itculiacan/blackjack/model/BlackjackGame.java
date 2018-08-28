@@ -68,7 +68,9 @@ public class BlackjackGame {
                     showLoser(player);
                 } else {
 
-                    if (askIfWantsCard(player)) {
+                    if (player instanceof Croupier) {
+                        playCroupierTurn((Croupier) player);
+                    } else if (askIfWantsCard(player)) {
                         croupier.giveNextCard(player);
                     }
 
@@ -88,7 +90,7 @@ public class BlackjackGame {
         boolean hasValidResponse = false;
         do {
 
-            System.out.print(player.getName()+", ¿Quiere otra carta? (Si/No): ");
+            System.out.print(player.getName()+" ("+player.getHandValue()+" pts), ¿Quiere otra carta? (Si/No): ");
             String userInput = sc.next();
 
             if ( userInput.matches("Si|si|yes|1") ) {
@@ -107,6 +109,21 @@ public class BlackjackGame {
         } while (!hasValidResponse);
 
         return boolResponse;
+    }
+
+    private void playCroupierTurn(Croupier croupierPlayer) {
+
+        /* El croupier no puede pedir más cartas si ya tiene 17 puntos */
+        if (croupierPlayer.getHandValue() < 17) {
+            /* Aquí se deben implementar las estrategias del croupier */
+
+            // En esta estrategia el croupier tiene 50/50 posibilidades de pedir o pasar
+            double randomNumber = Math.random();
+
+            if (randomNumber > 0.5 ) {
+                croupier.giveNextCard(croupierPlayer);
+            }
+        }
     }
 
     private void showWinner(Player player) {
