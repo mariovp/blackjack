@@ -34,7 +34,10 @@ public class Croupier extends Player {
 
         int playerHandValue = player.getHandValue();
 
+        /*Si el jugador ya llegó a un estatus final (Ganó, Perdió o se Quedó) entonces no validar y regresar el mismo estatus */
         if (player.status != PlayerStatus.PLAYING) return player.status;
+
+        /* Se implementan validaciones diferentes para Jugador croupier */
         if (player instanceof Croupier) return validateCroupierStatus(playerHandValue);
 
         PlayerStatus playerStatus;

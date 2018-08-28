@@ -82,6 +82,7 @@ public class BlackjackGame {
             }
         }
 
+        showGameResults();
     }
 
     private boolean askIfWantsCard(Player player) {
@@ -130,6 +131,47 @@ public class BlackjackGame {
         }
 
         return false;
+    }
+
+    private void showGameResults() {
+        List<Player> playersWithoutCroupierList = new ArrayList<>();
+
+        for (Player player : playerList) {
+            if (!(player instanceof Croupier)) playersWithoutCroupierList.add(player);
+        }
+
+        int croupierScore = croupier.getHandValue();
+        String croupierName = croupier.getName();
+
+        for (Player player : playersWithoutCroupierList) {
+            String template = "%1$s (%2$d pts) vs %3$s (%4$d pts): %5$s!";
+            int playerScore = player.getHandValue();
+            String playerName = player.getName();
+
+            String gameResult;
+
+            if (croupier.status == PlayerStatus.LOST) {
+                if (player.status == PlayerStatus.LOST)
+                    gameResult = "Empate";
+                else
+                    gameResult = "Gana " + playerName;
+
+            } else if (player.status == PlayerStatus.LOST) {
+                gameResult = "Gana "+croupierName+" (Croupier) :(";
+
+            } else if (croupierScore > playerScore)
+                gameResult = "Gana "+croupierName+" (Croupier) :(";
+
+            else if (croupierScore < playerScore)
+                gameResult = "Gana "+playerName;
+
+            else
+                gameResult = "Empate";
+
+            String message = String.format(template, croupierName, croupierScore, playerName, playerScore, gameResult);
+
+            System.out.println(message);
+        }
     }
 
     private void showWinner(Player player) {
