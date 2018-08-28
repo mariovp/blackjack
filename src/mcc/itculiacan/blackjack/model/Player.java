@@ -7,7 +7,7 @@ public class Player {
 
     private String name;
     private List<Card> hand = new ArrayList<>();
-    private PlayerStatus playerStatus = PlayerStatus.PLAYING;
+    public PlayerStatus status = PlayerStatus.PLAYING;
 
     public Player(String name) {
         this.name = name;

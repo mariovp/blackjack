@@ -13,6 +13,7 @@ public class BlackjackGame {
         System.out.println("----------------Programa iniciado--------------");
         addPlayers();
         dealCards();
+        play();
     }
 
     private void addPlayers() {
@@ -38,8 +39,6 @@ public class BlackjackGame {
             playerList.add(player);
         }
 
-        scanner.close();
-
         playerList.add(croupier);
 
         System.out.println("Jugadores agregados: ");
@@ -57,6 +56,65 @@ public class BlackjackGame {
             System.out.println(">");
             player.printInfo();
         }
+    }
+
+    private void play() {
+        for(int i = 0; i<2; i++) {
+            for (Player player : playerList) {
+                player.status = croupier.validatePlayerStatus(player);
+                if (player.status == PlayerStatus.WIN) {
+                    showWinner(player);
+                } else if (player.status == PlayerStatus.LOST) {
+                    showLoser(player);
+                } else {
+
+                    if (askIfWantsCard(player)) {
+                        croupier.giveNextCard(player);
+                    }
+
+                    player.printInfo();
+
+                }
+            }
+        }
+
+    }
+
+    private boolean askIfWantsCard(Player player) {
+
+        Scanner sc = new Scanner(System.in);
+
+        boolean boolResponse = false;
+        boolean hasValidResponse = false;
+        do {
+
+            System.out.print(player.getName()+", ¿Quiere otra carta? (Si/No): ");
+            String userInput = sc.next();
+
+            if ( userInput.matches("Si|si|yes|1") ) {
+                hasValidResponse = true;
+                boolResponse = true;
+                System.out.println("Ha respondido Si, se entraga una carta");
+
+            } else if ( userInput.matches("No|no|0") ) {
+                hasValidResponse = true;
+                boolResponse = false;
+                System.out.println("Ha respondido No, se queda como está");
+
+            } else
+                System.out.println("Debe responder Si o No");
+
+        } while (!hasValidResponse);
+
+        return boolResponse;
+    }
+
+    private void showWinner(Player player) {
+        System.out.println("Winner: "+player.getName()+"!!!!!");
+    }
+
+    private void showLoser(Player player) {
+        System.out.println(" >>>>>>>>>>>>>> Player "+player.getName()+" lost :( <<<<<<<<<<<<<<<<<<<<<<");
     }
 
 }
