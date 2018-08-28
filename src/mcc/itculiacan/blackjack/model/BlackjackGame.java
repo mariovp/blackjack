@@ -133,15 +133,15 @@ public class BlackjackGame {
     }
 
     private void showWinner(Player player) {
-        System.out.println("\t\t\t|||||||||||| Jugador: "+player.getName()+" ganó ||||||||||||||||");
+        System.out.println("\t \t \t|||||||||||| Jugador: "+player.getName()+" ganó ||||||||||||||||");
     }
 
     private void showLoser(Player player) {
-        System.out.println("\t\t\t>>>>>>>>>>>>>> Jugador: "+player.getName()+" perdió :( <<<<<<<<<<<<<<<<<<<<<<");
+        System.out.println("\t \t \t>>>>>>>>>>>>>> Jugador: "+player.getName()+" perdió :( <<<<<<<<<<<<<<<<<<<<<<");
     }
 
     private void showStayed(Player player) {
-        System.out.println("\t\t\t>>>>>>>>>>>>>> Jugador: "+player.getName()+" se quedó con "+player.getHandValue()+" puntos <<<<<<<<<<<<<<<<<<<<<<");
+        System.out.println("\t \t \t>>>>>>>>>>>>>> Jugador: "+player.getName()+" se quedó con "+player.getHandValue()+" puntos <<<<<<<<<<<<<<<<<<<<<<");
     }
 
 }

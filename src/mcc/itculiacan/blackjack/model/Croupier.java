@@ -34,11 +34,12 @@ public class Croupier extends Player {
 
         int playerHandValue = player.getHandValue();
 
+        if (player.status != PlayerStatus.PLAYING) return player.status;
+        if (player instanceof Croupier) return validateCroupierStatus(playerHandValue);
+
         PlayerStatus playerStatus;
 
-        if (player instanceof Croupier) {
-            playerStatus = validateCroupierStatus(playerHandValue);
-        } else if (playerHandValue == 21)
+        if (playerHandValue == 21)
             playerStatus = PlayerStatus.WON;
         else if (playerHandValue < 21)
             playerStatus = PlayerStatus.PLAYING;
