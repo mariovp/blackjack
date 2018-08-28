@@ -2,6 +2,6 @@ package mcc.itculiacan.blackjack.model;
 
 public enum PlayerStatus {
 
-    PLAYING, LOST, WIN
+    PLAYING, STAYED, LOST, WON
 
 }

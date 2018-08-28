@@ -59,13 +59,15 @@ public class BlackjackGame {
     }
 
     private void play() {
-        for(int i = 0; i<2; i++) {
+        while(checkAreTherePlayers()) {
             for (Player player : playerList) {
                 player.status = croupier.validatePlayerStatus(player);
-                if (player.status == PlayerStatus.WIN) {
+                if (player.status == PlayerStatus.WON) {
                     showWinner(player);
                 } else if (player.status == PlayerStatus.LOST) {
                     showLoser(player);
+                } else if (player.status == PlayerStatus.STAYED) {
+                    showStayed(player);
                 } else {
 
                     if (player instanceof Croupier) {
@@ -101,6 +103,7 @@ public class BlackjackGame {
             } else if ( userInput.matches("No|no|0") ) {
                 hasValidResponse = true;
                 boolResponse = false;
+                player.status = PlayerStatus.STAYED;
                 System.out.println("Ha respondido No, se queda como está");
 
             } else
@@ -115,23 +118,30 @@ public class BlackjackGame {
 
         /* El croupier no puede pedir más cartas si ya tiene 17 puntos */
         if (croupierPlayer.getHandValue() < 17) {
-            /* Aquí se deben implementar las estrategias del croupier */
-
-            // En esta estrategia el croupier tiene 50/50 posibilidades de pedir o pasar
-            double randomNumber = Math.random();
-
-            if (randomNumber > 0.5 ) {
-                croupier.giveNextCard(croupierPlayer);
-            }
+            croupier.giveNextCard(croupierPlayer);
         }
     }
 
+    private boolean checkAreTherePlayers() {
+
+        for (Player player : playerList) {
+            if (player.status == PlayerStatus.PLAYING)
+                return true;
+        }
+
+        return false;
+    }
+
     private void showWinner(Player player) {
-        System.out.println("Winner: "+player.getName()+"!!!!!");
+        System.out.println("\t\t\t|||||||||||| Jugador: "+player.getName()+" ganó ||||||||||||||||");
     }
 
     private void showLoser(Player player) {
-        System.out.println(" >>>>>>>>>>>>>> Player "+player.getName()+" lost :( <<<<<<<<<<<<<<<<<<<<<<");
+        System.out.println("\t\t\t>>>>>>>>>>>>>> Jugador: "+player.getName()+" perdió :( <<<<<<<<<<<<<<<<<<<<<<");
+    }
+
+    private void showStayed(Player player) {
+        System.out.println("\t\t\t>>>>>>>>>>>>>> Jugador: "+player.getName()+" se quedó con "+player.getHandValue()+" puntos <<<<<<<<<<<<<<<<<<<<<<");
     }
 
 }
