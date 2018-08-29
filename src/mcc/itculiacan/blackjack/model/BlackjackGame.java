@@ -59,23 +59,17 @@ public class BlackjackGame {
     }
 
     private void play() {
-        while(checkAreTherePlayers()) {
-            for (Player player : playerList) {
+        for (Player player : playerList) {
+
+            while (player.status == PlayerStatus.PLAYING) {
+
+                if (askIfWantsCard(player))
+                    croupier.giveNextCard(player);
+
                 player.status = croupier.validatePlayerStatus(player);
-                if (player.status == PlayerStatus.WON) {
-                    showWinner(player);
-                } else if (player.status == PlayerStatus.LOST) {
-                    showLoser(player);
-                } else if (player.status == PlayerStatus.STAYED) {
-                    showStayed(player);
-                } else {
-
-                    if (askIfWantsCard(player))
-                        croupier.giveNextCard(player);
-
-                    player.printInfo();
-                }
+                showIfStatusChanged(player);
             }
+
         }
 
         while(croupier.status == PlayerStatus.PLAYING) {
@@ -126,16 +120,6 @@ public class BlackjackGame {
         }
     }
 
-    private boolean checkAreTherePlayers() {
-
-        for (Player player : playerList) {
-            if (player.status == PlayerStatus.PLAYING)
-                return true;
-        }
-
-        return false;
-    }
-
     private void showGameResults() {
         int croupierScore = croupier.getHandValue();
         String croupierName = croupier.getName();
@@ -171,6 +155,20 @@ public class BlackjackGame {
 
             System.out.println(message);
         }
+    }
+
+    private void showIfStatusChanged(Player player) {
+
+        switch (player.status) {
+            case WON: showWinner(player);
+                break;
+            case LOST: showLoser(player);
+                break;
+            case STAYED:
+                showStayed(player);
+                break;
+        }
+
     }
 
     private void showWinner(Player player) {
