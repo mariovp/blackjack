@@ -26,7 +26,7 @@ public class Croupier extends Player {
 
     public void giveNextCard(Player player) {
         Card card = deck.getCard();
-        System.out.println("> " + player.getName() + " obtiene la carta " + card.getName());
+        System.out.println("\n> " + player.getName() + " obtiene la carta " + card.getName()+" <");
         player.giveCard(card);
     }
 

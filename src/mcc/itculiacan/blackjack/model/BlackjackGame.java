@@ -51,7 +51,6 @@ public class BlackjackGame {
         croupier.dealCards(playerList);
 
         for(Player player: playerList) {
-            System.out.println(">");
             player.printInfo();
         }
 
@@ -84,6 +83,8 @@ public class BlackjackGame {
             croupier.status = croupier.validatePlayerStatus(croupier);
         }
 
+        croupier.printInfo();
+
         showGameResults();
     }
 
@@ -95,7 +96,7 @@ public class BlackjackGame {
         boolean hasValidResponse = false;
         do {
 
-            System.out.print(player.getName()+" ("+player.getHandValue()+" pts), ¿Quiere otra carta? (Si/No): ");
+            System.out.print("\n"+player.getName()+" ("+player.getHandValue()+" pts), ¿Quiere otra carta? (Si/No): ");
             String userInput = sc.next();
 
             if ( userInput.matches("Si|si|yes|1") ) {
@@ -138,6 +139,8 @@ public class BlackjackGame {
     private void showGameResults() {
         int croupierScore = croupier.getHandValue();
         String croupierName = croupier.getName();
+
+        System.out.println();
 
         for (Player player : playerList) {
             String template = "%1$s (%2$d pts) vs %3$s (%4$d pts): %5$s!";

@@ -49,9 +49,7 @@ public class Player {
     }
 
     public void printInfo() {
-        System.out.println("Jugador: " + name);
-        System.out.println("Puntos: " + getHandValue());
-        System.out.println("Cartas: ");
+        System.out.println("\nJugador: " + name + "\nPuntos: " + getHandValue()+"\nCartas: ");
 
         for (Card card :
                 hand) {
