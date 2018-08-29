@@ -42,16 +42,6 @@ public class Player {
         hand.add(card);
     }
 
-    public List<String> getHandCardNames() {
-        List<String> nameList = new ArrayList<>();
-
-        for (Card card: hand) {
-            nameList.add(card.getName());
-        }
-
-        return nameList;
-    }
-
     public void printInfo() {
         System.out.println("\nJugador: " + name + "\nPuntos: " + getHandPoints()+"\nCartas: ");
 
