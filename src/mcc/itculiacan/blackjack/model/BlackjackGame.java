@@ -149,27 +149,45 @@ public class BlackjackGame {
             int playerScore = player.getHandPoints();
             String playerName = player.getName();
 
-            String gameResult;
+            GameWinner gameWinner;
 
             if (croupier.status == PlayerStatus.LOST) {
+
                 if (player.status == PlayerStatus.LOST)
-                    gameResult = "Gana "+croupierName+" (Croupier) :(";
+                    gameWinner = GameWinner.CROUPIER;
                 else
-                    gameResult = "Gana " + playerName;
+                    gameWinner = GameWinner.PLAYER;
 
-            } else if (player.status == PlayerStatus.LOST) {
-                gameResult = "Gana "+croupierName+" (Croupier) :(";
-
-            } else if (croupierScore > playerScore)
-                gameResult = "Gana "+croupierName+" (Croupier) :(";
-
+            } else if (player.status == PlayerStatus.LOST)
+                gameWinner = GameWinner.CROUPIER;
+            else if (croupierScore > playerScore)
+                gameWinner = GameWinner.CROUPIER;
             else if (croupierScore < playerScore)
-                gameResult = "Gana "+playerName;
-
+                gameWinner = GameWinner.PLAYER;
             else
-                gameResult = "Empate";
+                gameWinner = GameWinner.DRAW;
 
-            String message = String.format(template, croupierName, croupierScore, playerName, playerScore, gameResult);
+            String gameResultString = "";
+
+            switch (gameWinner) {
+                case CROUPIER: {
+                    player.notifyBetLost();
+                    gameResultString = "Gana "+croupierName+" (Croupier) :(";
+                }
+                break;
+                case PLAYER: {
+                    player.notifyBetWon();
+                    gameResultString = "Gana " + playerName;
+                }
+                break;
+                case DRAW: {
+                    player.notifyBetBack();
+                    gameResultString = "Empate";
+                }
+                break;
+            }
+
+            String message = String.format(template, croupierName, croupierScore, playerName, playerScore, gameResultString);
 
             System.out.println(message);
         }
