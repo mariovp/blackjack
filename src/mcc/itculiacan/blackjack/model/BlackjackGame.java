@@ -9,6 +9,8 @@ public class BlackjackGame {
     private Croupier croupier = new Croupier("Blackjack Master");
     private List<Player> playerList = new ArrayList<>();
 
+    private Scanner scanner = new Scanner(System.in);
+
     public void startGame() {
         System.out.println("----------------Programa iniciado--------------");
         addPlayers();
@@ -17,7 +19,6 @@ public class BlackjackGame {
     }
 
     private void addPlayers() {
-        Scanner scanner = new Scanner(System.in);
         int n;
         boolean isValidNumber = false;
         do {
@@ -33,15 +34,28 @@ public class BlackjackGame {
 
 
         for (int i = 0; i < n; i++) {
-            System.out.print("Ingresa el nombre del Jugador "+ (i+1) + ": ");
+            System.out.print("\nIngresa el nombre del Jugador "+ (i+1) + ": ");
             String name = scanner.next();
             Player player = new Player(name);
             playerList.add(player);
+            askBetAmount(player);
         }
 
         System.out.println("Jugadores agregados: ");
         for (Player player : playerList) {
             System.out.println("\t- "+player.getName());
+        }
+    }
+
+    private void askBetAmount(Player player) {
+
+        boolean isBetCorrect = false;
+        while (!isBetCorrect) {
+            System.out.print(player.getName()+" ($ "+player.getTotalMoney()+"), ¿Cuanto quiere apostar?: ");
+
+            double betAmount = scanner.nextDouble();
+
+            isBetCorrect = player.placeBet(betAmount);
         }
     }
 
@@ -85,14 +99,12 @@ public class BlackjackGame {
 
     private boolean askIfWantsCard(Player player) {
 
-        Scanner sc = new Scanner(System.in);
-
         boolean boolResponse = false;
         boolean hasValidResponse = false;
         do {
 
             System.out.print("\n"+player.getName()+" ("+player.getHandPoints()+" pts), ¿Quiere otra carta? (Si/No): ");
-            String userInput = sc.next();
+            String userInput = scanner.next();
 
             if ( userInput.matches("Si|si|yes|1") ) {
                 hasValidResponse = true;

@@ -9,6 +9,9 @@ public class Player {
     private List<Card> hand = new ArrayList<>();
     public PlayerStatus status = PlayerStatus.PLAYING;
 
+    private double bet = 0.0;
+    private double totalMoney = 100;
+
     public Player(String name) {
         this.name = name;
     }
@@ -40,6 +43,37 @@ public class Player {
 
     public void giveCard(Card card) {
         hand.add(card);
+    }
+
+    public double getTotalMoney() {
+        return totalMoney;
+    }
+
+    public boolean placeBet(double bet) {
+
+        if (bet <= totalMoney) {
+            this.bet = bet;
+            this.totalMoney -= bet;
+            return true;
+        } else {
+            System.out.println("No tienes suficiente dinero para apostar esta cantidad");
+            return false;
+        }
+
+    }
+
+    public void notifyBetWon() {
+        this.totalMoney += (bet*2);
+        this.bet = 0.0;
+    }
+
+    public void notifyBetBack() {
+        this.totalMoney += bet;
+        this.bet = 0.0;
+    }
+
+    public void notifyBetLost() {
+        this.bet = 0.0;
     }
 
     public void printInfo() {
