@@ -39,8 +39,6 @@ public class BlackjackGame {
             playerList.add(player);
         }
 
-        playerList.add(croupier);
-
         System.out.println("Jugadores agregados: ");
         for (Player player : playerList) {
             System.out.println("\t- "+player.getName());
@@ -56,6 +54,9 @@ public class BlackjackGame {
             System.out.println(">");
             player.printInfo();
         }
+
+        croupier.giveNextCard(croupier);
+        croupier.printInfo();
     }
 
     private void play() {
@@ -70,16 +71,17 @@ public class BlackjackGame {
                     showStayed(player);
                 } else {
 
-                    if (player instanceof Croupier) {
-                        playCroupierTurn((Croupier) player);
-                    } else if (askIfWantsCard(player)) {
+                    if (askIfWantsCard(player))
                         croupier.giveNextCard(player);
-                    }
 
                     player.printInfo();
-
                 }
             }
+        }
+
+        while(croupier.status == PlayerStatus.PLAYING) {
+            playCroupierTurn(croupier);
+            croupier.status = croupier.validatePlayerStatus(croupier);
         }
 
         showGameResults();
@@ -134,16 +136,10 @@ public class BlackjackGame {
     }
 
     private void showGameResults() {
-        List<Player> playersWithoutCroupierList = new ArrayList<>();
-
-        for (Player player : playerList) {
-            if (!(player instanceof Croupier)) playersWithoutCroupierList.add(player);
-        }
-
         int croupierScore = croupier.getHandValue();
         String croupierName = croupier.getName();
 
-        for (Player player : playersWithoutCroupierList) {
+        for (Player player : playerList) {
             String template = "%1$s (%2$d pts) vs %3$s (%4$d pts): %5$s!";
             int playerScore = player.getHandValue();
             String playerName = player.getName();
