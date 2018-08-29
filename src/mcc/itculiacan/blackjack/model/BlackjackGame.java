@@ -143,7 +143,7 @@ public class BlackjackGame {
 
             if (croupier.status == PlayerStatus.LOST) {
                 if (player.status == PlayerStatus.LOST)
-                    gameResult = "Empate";
+                    gameResult = "Gana "+croupierName+" (Croupier) :(";
                 else
                     gameResult = "Gana " + playerName;
 
