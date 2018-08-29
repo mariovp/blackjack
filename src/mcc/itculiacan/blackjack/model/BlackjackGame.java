@@ -61,13 +61,16 @@ public class BlackjackGame {
     private void play() {
         for (Player player : playerList) {
 
-            while (player.status == PlayerStatus.PLAYING) {
 
-                if (askIfWantsCard(player))
-                    croupier.giveNextCard(player);
+
+            while (player.status == PlayerStatus.PLAYING) {
 
                 player.status = croupier.validatePlayerStatus(player);
                 showIfStatusChanged(player);
+
+                if (player.status == PlayerStatus.PLAYING && askIfWantsCard(player))
+                    croupier.giveNextCard(player);
+
             }
 
         }
@@ -90,7 +93,7 @@ public class BlackjackGame {
         boolean hasValidResponse = false;
         do {
 
-            System.out.print("\n"+player.getName()+" ("+player.getHandValue()+" pts), ¿Quiere otra carta? (Si/No): ");
+            System.out.print("\n"+player.getName()+" ("+player.getHandPoints()+" pts), ¿Quiere otra carta? (Si/No): ");
             String userInput = sc.next();
 
             if ( userInput.matches("Si|si|yes|1") ) {
@@ -115,20 +118,25 @@ public class BlackjackGame {
     private void playCroupierTurn(Croupier croupierPlayer) {
 
         /* El croupier no puede pedir más cartas si ya tiene 17 puntos */
-        if (croupierPlayer.getHandValue() < 17) {
+        if (croupierPlayer.getHandPoints() < 17) {
             croupier.giveNextCard(croupierPlayer);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     private void showGameResults() {
-        int croupierScore = croupier.getHandValue();
+        int croupierScore = croupier.getHandPoints();
         String croupierName = croupier.getName();
 
         System.out.println();
 
         for (Player player : playerList) {
             String template = "%1$s (%2$d pts) vs %3$s (%4$d pts): %5$s";
-            int playerScore = player.getHandValue();
+            int playerScore = player.getHandPoints();
             String playerName = player.getName();
 
             String gameResult;
@@ -160,27 +168,33 @@ public class BlackjackGame {
     private void showIfStatusChanged(Player player) {
 
         switch (player.status) {
-            case WON: showWinner(player);
+            case BLACKJACK: showPlayerHasBlackjack(player);
                 break;
-            case LOST: showLoser(player);
+            case WON: showPlayerWon(player);
+                break;
+            case LOST: showPlayerLost(player);
                 break;
             case STAYED:
-                showStayed(player);
+                showPlayerStayed(player);
                 break;
         }
 
     }
 
-    private void showWinner(Player player) {
+    private void showPlayerHasBlackjack(Player player) {
+        System.out.println("\n> \t"+player.getName()+" tiene Blackjack! \t<");
+    }
+
+    private void showPlayerWon(Player player) {
         System.out.println("\n> \t"+player.getName()+" llegó a 21 puntos (Gana) \t<");
     }
 
-    private void showLoser(Player player) {
-        System.out.println("\n> \t"+player.getName()+" perdió con "+player.getHandValue()+" puntos \t<");
+    private void showPlayerLost(Player player) {
+        System.out.println("\n> \t"+player.getName()+" perdió con "+player.getHandPoints()+" puntos \t<");
     }
 
-    private void showStayed(Player player) {
-        System.out.println("\n> \t"+player.getName()+" se quedó con "+player.getHandValue()+" puntos \t<");
+    private void showPlayerStayed(Player player) {
+        System.out.println("\n> \t"+player.getName()+" se quedó con "+player.getHandPoints()+" puntos \t<");
     }
 
 }

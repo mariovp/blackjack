@@ -32,7 +32,7 @@ public class Croupier extends Player {
 
     public PlayerStatus validatePlayerStatus(Player player) {
 
-        int playerHandValue = player.getHandValue();
+        int playerHandValue = player.getHandPoints();
 
         /*Si el jugador ya llegó a un estatus final (Ganó, Perdió o se Quedó) entonces no validar y regresar el mismo estatus */
         if (player.status != PlayerStatus.PLAYING) return player.status;
@@ -42,7 +42,9 @@ public class Croupier extends Player {
 
         PlayerStatus playerStatus;
 
-        if (playerHandValue == 21)
+        if (playerHandValue == 21 && player.getHandLength() == 2)
+            playerStatus = PlayerStatus.BLACKJACK;
+        else if (playerHandValue == 21)
             playerStatus = PlayerStatus.WON;
         else if (playerHandValue < 21)
             playerStatus = PlayerStatus.PLAYING;

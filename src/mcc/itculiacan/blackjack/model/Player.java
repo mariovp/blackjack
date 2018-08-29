@@ -17,7 +17,7 @@ public class Player {
         return name;
     }
 
-    public int getHandValue() {
+    public int getHandPoints() {
 
         int value = 0;
         boolean hasAs = false;
@@ -32,6 +32,10 @@ public class Player {
             value += 10;
 
         return value;
+    }
+
+    public int getHandLength() {
+        return hand.size();
     }
 
     public void giveCard(Card card) {
@@ -49,7 +53,7 @@ public class Player {
     }
 
     public void printInfo() {
-        System.out.println("\nJugador: " + name + "\nPuntos: " + getHandValue()+"\nCartas: ");
+        System.out.println("\nJugador: " + name + "\nPuntos: " + getHandPoints()+"\nCartas: ");
 
         for (Card card :
                 hand) {
