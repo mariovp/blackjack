@@ -61,8 +61,6 @@ public class BlackjackGame {
     private void play() {
         for (Player player : playerList) {
 
-
-
             while (player.status == PlayerStatus.PLAYING) {
 
                 player.status = croupier.validatePlayerStatus(player);

@@ -32,21 +32,22 @@ public class Croupier extends Player {
 
     public PlayerStatus validatePlayerStatus(Player player) {
 
-        int playerHandValue = player.getHandPoints();
+        int playerHandPoints = player.getHandPoints();
+        int playerHandLength = player.getHandLength();
 
         /*Si el jugador ya llegó a un estatus final (Ganó, Perdió o se Quedó) entonces no validar y regresar el mismo estatus */
         if (player.status != PlayerStatus.PLAYING) return player.status;
 
         /* Se implementan validaciones diferentes para Jugador croupier */
-        if (player instanceof Croupier) return validateCroupierStatus(playerHandValue);
+        if (player instanceof Croupier) return validateCroupierStatus(playerHandPoints, playerHandLength);
 
         PlayerStatus playerStatus;
 
-        if (playerHandValue == 21 && player.getHandLength() == 2)
+        if (playerHandPoints == 21 && playerHandLength == 2)
             playerStatus = PlayerStatus.BLACKJACK;
-        else if (playerHandValue == 21)
+        else if (playerHandPoints == 21)
             playerStatus = PlayerStatus.WON;
-        else if (playerHandValue < 21)
+        else if (playerHandPoints < 21)
             playerStatus = PlayerStatus.PLAYING;
         else
             playerStatus = PlayerStatus.LOST;
@@ -54,11 +55,13 @@ public class Croupier extends Player {
         return playerStatus;
     }
 
-    private PlayerStatus validateCroupierStatus(int croupierHandValue) {
+    private PlayerStatus validateCroupierStatus(int croupierHandValue, int croupierHandLength) {
 
         PlayerStatus playerStatus;
 
-        if (croupierHandValue == 21)
+        if (croupierHandValue == 21 && croupierHandLength == 2)
+            playerStatus = PlayerStatus.BLACKJACK;
+        else if (croupierHandValue == 21)
             playerStatus = PlayerStatus.WON;
         else if (croupierHandValue < 17)
             playerStatus = PlayerStatus.PLAYING;
