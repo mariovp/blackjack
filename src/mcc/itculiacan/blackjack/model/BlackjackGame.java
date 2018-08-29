@@ -143,7 +143,7 @@ public class BlackjackGame {
         System.out.println();
 
         for (Player player : playerList) {
-            String template = "%1$s (%2$d pts) vs %3$s (%4$d pts): %5$s!";
+            String template = "%1$s (%2$d pts) vs %3$s (%4$d pts): %5$s";
             int playerScore = player.getHandValue();
             String playerName = player.getName();
 
@@ -174,15 +174,15 @@ public class BlackjackGame {
     }
 
     private void showWinner(Player player) {
-        System.out.println("\t \t \t|||||||||||| Jugador: "+player.getName()+" ganó ||||||||||||||||");
+        System.out.println("\n> \t"+player.getName()+" llegó a 21 puntos (Gana) \t<");
     }
 
     private void showLoser(Player player) {
-        System.out.println("\t \t \t>>>>>>>>>>>>>> Jugador: "+player.getName()+" perdió :( <<<<<<<<<<<<<<<<<<<<<<");
+        System.out.println("\n> \t"+player.getName()+" perdió con "+player.getHandValue()+" puntos \t<");
     }
 
     private void showStayed(Player player) {
-        System.out.println("\t \t \t>>>>>>>>>>>>>> Jugador: "+player.getName()+" se quedó con "+player.getHandValue()+" puntos <<<<<<<<<<<<<<<<<<<<<<");
+        System.out.println("\n> \t"+player.getName()+" se quedó con "+player.getHandValue()+" puntos \t<");
     }
 
 }
