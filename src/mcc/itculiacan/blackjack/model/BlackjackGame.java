@@ -14,8 +14,11 @@ public class BlackjackGame {
     public void startGame() {
         System.out.println("----------------Programa iniciado--------------");
         addPlayers();
-        dealCards();
         play();
+        while(askPlayAgain()) {
+            resetAllPlayers();
+            play();
+        }
     }
 
     private void addPlayers() {
@@ -32,16 +35,16 @@ public class BlackjackGame {
 
         } while (!isValidNumber);
 
+        System.out.println();
 
         for (int i = 0; i < n; i++) {
-            System.out.print("\nIngresa el nombre del Jugador "+ (i+1) + ": ");
+            System.out.print("Ingresa el nombre del Jugador "+ (i+1) + ": ");
             String name = scanner.next();
             Player player = new Player(name);
             playerList.add(player);
-            askBetAmount(player);
         }
 
-        System.out.println("Jugadores agregados: ");
+        System.out.println("\nJugadores agregados: ");
         for (Player player : playerList) {
             System.out.println("\t- "+player.getName());
         }
@@ -51,7 +54,7 @@ public class BlackjackGame {
 
         boolean isBetCorrect = false;
         while (!isBetCorrect) {
-            System.out.print(player.getName()+" ($ "+player.getTotalMoney()+"), ¿Cuanto quiere apostar?: ");
+            System.out.print("\n"+player.getName()+" ($ "+player.getTotalMoney()+"), ¿Cuanto quiere apostar?: ");
 
             double betAmount = scanner.nextDouble();
 
@@ -60,7 +63,7 @@ public class BlackjackGame {
     }
 
     private void dealCards() {
-        System.out.println("-------------Repartir cartas----------");
+        System.out.println("\n>>\tRepartir cartas\t<<");
         croupier.shuffleCards();
         croupier.dealCards(playerList);
 
@@ -73,6 +76,13 @@ public class BlackjackGame {
     }
 
     private void play() {
+
+        for (Player player : playerList) {
+            askBetAmount(player);
+        }
+
+        dealCards();
+
         for (Player player : playerList) {
 
             while (player.status == PlayerStatus.PLAYING) {
@@ -223,6 +233,41 @@ public class BlackjackGame {
 
     private void showPlayerStayed(Player player) {
         System.out.println("\n> \t"+player.getName()+" se quedó con "+player.getHandPoints()+" puntos \t<");
+    }
+
+    private boolean askPlayAgain() {
+
+        boolean boolResponse = false;
+        boolean hasValidResponse = false;
+        do {
+
+            System.out.print("\n\n¿Desea jugar de nuevo? (Si/No): ");
+            String userInput = scanner.next();
+
+            if ( userInput.matches("Si|si|yes|1") ) {
+                hasValidResponse = true;
+                boolResponse = true;
+                System.out.println("Comienza nuevo juego");
+
+            } else if ( userInput.matches("No|no|0") ) {
+                hasValidResponse = true;
+                boolResponse = false;
+                System.out.println("Fin del juego.");
+
+            } else
+                System.out.println("Debe responder Si o No");
+
+        } while (!hasValidResponse);
+
+        return boolResponse;
+    }
+
+    private void resetAllPlayers() {
+
+        croupier.reset();
+        for (Player player: playerList)
+            player.reset();
+
     }
 
 }

@@ -45,6 +45,11 @@ public class Player {
         hand.add(card);
     }
 
+    public void reset() {
+        hand.clear();
+        status = PlayerStatus.PLAYING;
+    }
+
     public double getTotalMoney() {
         return totalMoney;
     }
