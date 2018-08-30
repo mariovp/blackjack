@@ -16,6 +16,8 @@ public class Croupier extends Player {
 
     public void dealCards(List<Player> playerList) {
 
+        // Reparte dos cartas a cada jugador de la lista
+
         for (int i = 0; i < 2; i++) {
             for (Player player : playerList) {
                 player.giveCard(deck.getCard());
@@ -25,6 +27,9 @@ public class Croupier extends Player {
     }
 
     public void giveNextCard(Player player) {
+
+        //Entrega una carta al jugador
+
         Card card = deck.getCard();
         System.out.println("\n+\t " + player.getName() + " obtiene la carta " + card.getName()+" \t+");
         player.giveCard(card);
@@ -56,6 +61,8 @@ public class Croupier extends Player {
     }
 
     private PlayerStatus validateCroupierStatus(int croupierHandValue, int croupierHandLength) {
+
+        // Valida el estatus del croupier por separado porque sus reglas son diferentes a las de un jugador normal
 
         PlayerStatus playerStatus;
 
