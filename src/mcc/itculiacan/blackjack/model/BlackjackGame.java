@@ -154,6 +154,8 @@ public class BlackjackGame {
 
         System.out.println();
 
+        List<Player> playersWithoutMoney = new ArrayList<>();
+
         for (Player player : playerList) {
             String template = "%1$s (%2$d pts) vs %3$s (%4$d pts): %5$s";
             int playerScore = player.getHandPoints();
@@ -182,7 +184,7 @@ public class BlackjackGame {
             switch (gameWinner) {
                 case CROUPIER: {
                     player.notifyBetLost();
-                    gameResultString = "Gana "+croupierName+" (Croupier) :(";
+                    gameResultString = "Gana "+croupierName;
                 }
                 break;
                 case PLAYER: {
@@ -198,9 +200,18 @@ public class BlackjackGame {
             }
 
             String message = String.format(template, croupierName, croupierScore, playerName, playerScore, gameResultString);
-
             System.out.println(message);
+
+            System.out.println(playerName+" tiene $ "+player.getTotalMoney()+"\n");
+
+            if (player.getTotalMoney() == 0.0) {
+                playersWithoutMoney.add(player);
+                System.out.println(playerName+" se quedó sin dinero, queda fuera del juego\n");
+            }
+
         }
+
+        playerList.removeAll(playersWithoutMoney);
     }
 
     private void showIfStatusChanged(Player player) {
@@ -241,7 +252,7 @@ public class BlackjackGame {
         boolean hasValidResponse = false;
         do {
 
-            System.out.print("\n\n¿Desea jugar de nuevo? (Si/No): ");
+            System.out.print("\n¿Desea jugar de nuevo? (Si/No): ");
             String userInput = scanner.next();
 
             if ( userInput.matches("Si|si|yes|1") ) {
