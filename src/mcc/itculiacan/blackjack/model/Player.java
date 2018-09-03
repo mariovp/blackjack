@@ -68,15 +68,19 @@ public class Player {
     public boolean placeBet(double bet) {
 
         // Valida si el dinero alcanza y después hace la apuesta
+
+        boolean isBetValid;
+
         if (bet <= totalMoney) {
             this.bet = bet;
             this.totalMoney -= bet;
-            return true;
+            isBetValid = true;
         } else {
             System.out.println("No tienes suficiente dinero para apostar esta cantidad");
-            return false;
+            isBetValid = false;
         }
 
+        return isBetValid;
     }
 
     public void notifyBetWon() {
